@@ -163,7 +163,8 @@ def aws_command(*args):
 
 #---------------------------------------------------------------------------------------------------
 # sends a response to cloudformation
-def cfn_send(event, context, responseStatus, responseData={}, physicalResourceId=None, noEcho=False, reason=None):
+def cfn_send(event, context, responseStatus, responseData=None, physicalResourceId=None, noEcho=False, reason=None):
+    responseData = {} if responseData is None else responseData
 
     responseUrl = event['ResponseURL']
     logger.info(responseUrl)
