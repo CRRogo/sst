@@ -20,7 +20,7 @@ CFN_FAILED = "FAILED"
 def handler(event, context):
 
     def cfn_error(message=None):
-        logger.error("| cfn_error: %s" % message)
+        logger.error("| cfn_error: %s", message)
         cfn_send(event, context, CFN_FAILED, reason=message)
 
     try:
@@ -77,7 +77,7 @@ def update_code(source, replace_values):
 
     # create a temporary working directory
     workdir=tempfile.mkdtemp()
-    logger.info("| workdir: %s" % workdir)
+    logger.info("| workdir: %s", workdir)
 
     # create a directory into which we extract the contents of the zip file
     contents_dir=os.path.join(workdir, 'contents')
@@ -85,14 +85,14 @@ def update_code(source, replace_values):
 
     # download the archive from the source and extract to "contents"
     archive=os.path.join(workdir, str(uuid4()))
-    logger.info("unzip: %s" % archive)
+    logger.info("unzip: %s", archive)
     aws_command("s3", "cp", s3_source_zip, archive)
-    logger.info("| extracting archive to: %s\n" % contents_dir)
+    logger.info("| extracting archive to: %s\n", contents_dir)
     with ZipFile(archive, "r") as zip:
       zip.extractall(contents_dir)
 
     # replace values in files
-    logger.info("replacing values: %s" % replace_values)
+    logger.info("replacing values: %s", replace_values)
     for replace_value in replace_values:
         pattern = "%s/%s" % (contents_dir, replace_value['files'])
         logger.info("| replacing pattern: %s", pattern)
@@ -119,7 +119,7 @@ def update_code(source, replace_values):
 # executes an "aws" cli command
 def aws_command(*args):
     aws="/opt/awscli/aws" # from AwsCliLayer
-    logger.info("| aws %s" % ' '.join(args))
+    logger.info("| aws %s", ' '.join(args))
     subprocess.check_call([aws] + list(args))
 
 #---------------------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ CFN_FAILED = "FAILED"
 def handler(event, context):
 
     def cfn_error(message=None):
-        logger.error("| cfn_error: %s" % message)
+        logger.error("| cfn_error: %s", message)
         cfn_send(event, context, CFN_FAILED, reason=message)
 
     try:
@@ -89,7 +89,7 @@ async def s3_deploy_all(sources, dest_bucket_name, file_options, replace_values)
     loop = asyncio.get_running_loop()
     function_name = os.environ['UPLOADER_FUNCTION_NAME']
 
-    logger.info("| s3_deploy_all: uploader function: %s" % function_name)
+    logger.info("| s3_deploy_all: uploader function: %s", function_name)
 
     await asyncio.gather(
         *[
@@ -139,11 +139,11 @@ def s3_purge(filenames, dest_bucket_name):
 
     # create a temporary working directory
     workdir=tempfile.mkdtemp()
-    logger.info("| workdir: %s" % workdir)
+    logger.info("| workdir: %s", workdir)
 
     # download the archive from the source and extract to "contents"
     target_path=os.path.join(workdir, str(uuid4()))
-    logger.info("target_path: %s" % target_path)
+    logger.info("target_path: %s", target_path)
     aws_command("s3", "cp", s3_source, target_path)
     with open(target_path) as f:
         filepaths = f.read().splitlines()
@@ -158,7 +158,7 @@ def s3_purge(filenames, dest_bucket_name):
 # executes an "aws" cli command
 def aws_command(*args):
     aws="/opt/awscli/aws" # from AwsCliLayer
-    logger.info("| aws %s" % ' '.join(args))
+    logger.info("| aws %s", ' '.join(args))
     subprocess.check_call([aws] + list(args))
 
 #---------------------------------------------------------------------------------------------------

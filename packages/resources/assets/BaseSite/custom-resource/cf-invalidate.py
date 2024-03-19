@@ -29,7 +29,7 @@ CFN_FAILED = "FAILED"
 def handler(event, context):
 
     def cfn_error(message=None):
-        logger.error("| cfn_error: %s" % message)
+        logger.error("| cfn_error: %s", message)
         cfn_send(event, context, CFN_FAILED, reason=message)
 
     try:
@@ -93,7 +93,7 @@ def cloudfront_invalidate(distribution_id, distribution_paths, wait_for_invalida
 # executes an "aws" cli command
 def aws_command(*args):
     aws="/opt/awscli/aws" # from AwsCliLayer
-    logger.info("| aws %s" % ' '.join(args))
+    logger.info("| aws %s", ' '.join(args))
     subprocess.check_call([aws] + list(args))
 
 #---------------------------------------------------------------------------------------------------
